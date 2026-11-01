@@ -77,3 +77,7 @@ Permissions used: `storage`, `clipboardWrite`, `clipboardRead`, `contextMenus`, 
 
 - Right click fill does not work on pages where the browser blocks extensions, such as its own settings pages. The password is still copied.
 - Some sites reject symbols, emoji or very long passwords. Turn those options down for them.
+
+## Licence
+
+MIT, see [LICENSE](LICENSE).
