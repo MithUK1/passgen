@@ -1,0 +1,42 @@
+<!doctype html><meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1400px;height:560px;overflow:hidden;font-family:Inter,system-ui,sans-serif;color:#fff;
+ background:radial-gradient(900px 600px at 85% 20%,#2c4fc9 0%,rgba(44,79,201,0) 60%),radial-gradient(700px 500px at 0% 100%,#1a3a9a 0%,rgba(26,58,154,0) 60%),linear-gradient(135deg,#0d1636,#122255);position:relative}
+body:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1.2px,transparent 1.2px);background-size:28px 28px;mask-image:linear-gradient(90deg,transparent,#000 70%)}
+.left{position:absolute;left:96px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;width:640px}
+.brand{display:flex;align-items:center;gap:28px}
+.brand svg{width:132px;height:132px;filter:drop-shadow(0 14px 28px rgba(0,0,0,.45))}
+h1{font-size:92px;font-weight:800;letter-spacing:-2.5px}
+.tag{margin-top:34px;font-size:38px;line-height:1.25;font-weight:500;color:#d5e0ff;letter-spacing:-.4px}
+.chips{display:flex;gap:12px;margin-top:38px}
+.chip{padding:10px 18px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:20px;font-weight:600;color:#e7edff}
+.card{position:absolute;right:84px;top:92px;width:600px;background:#fff;color:#1b1f24;border-radius:22px;padding:32px 34px 28px;box-shadow:0 40px 80px rgba(3,10,40,.55),0 0 0 1px rgba(255,255,255,.4)}
+.tabs{display:flex;gap:10px;margin-bottom:26px}
+.tab{flex:1;text-align:center;padding:11px 0;border-radius:10px;border:1px solid #d3d8df;font-size:19px;font-weight:600;color:#394150}
+.tab.on{background:#2557d6;border-color:#2557d6;color:#fff}
+.pw{font:600 31px/1.35 ui-monospace,"DejaVu Sans Mono",monospace;word-break:normal;overflow-wrap:break-word;color:#14181d;letter-spacing:-.5px}
+.meter{height:12px;border-radius:6px;background:#e3e7ee;margin-top:24px;overflow:hidden}
+.meter i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#2e7d32,#43a047)}
+.str{margin-top:16px;font-size:23px;font-weight:700}
+.sub{margin-top:6px;font-size:19px;color:#5d6673}
+.btns{display:flex;gap:12px;margin-top:24px}
+.b{flex:1;text-align:center;padding:14px 0;border-radius:11px;font-size:21px;font-weight:700}
+.b1{background:#2557d6;color:#fff}.b2{border:1px solid #d3d8df;color:#1b1f24}
+</style>
+<div class="left">
+ <div class="brand">
+  <!--ICON-->
+  <h1>Passgen</h1>
+ </div>
+ <div class="tag">Strong passwords and passphrases, one click from the toolbar.</div>
+ <div class="chips"><span class="chip">Nothing saved</span><span class="chip">Nothing sent</span><span class="chip">Clears your clipboard</span></div>
+</div>
+<div class="card">
+ <div class="tabs"><span class="tab">Password</span><span class="tab on">Passphrase</span><span class="tab">PIN</span><span class="tab">Hash</span></div>
+ <div class="pw">Chutes-Lilies-Future-Infuse-Unpaid-Taxing-Bundle-13</div>
+ <div class="meter"><i></i></div>
+ <div class="str">Strong - 92 bits (7 words)</div>
+ <div class="sub">Could take about 13 billion years to crack at 10 billion guesses a second.</div>
+ <div class="btns"><span class="b b1">Generate</span><span class="b b2">Copy</span></div>
+</div>

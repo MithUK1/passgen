@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Passgen</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 20h14"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1zM14 7l3 3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M4 9h11a5 5 0 0 1 0 10H8M4 9l4-4M4 9l4 4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3zM9 12l2 2 4-4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4"/></symbol>
+</svg>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><img src="icons/48.png" alt="" width="28" height="28"><h1>Passgen</h1></div>
+    <nav id="modes" aria-label="Type">
+      <button type="button" data-mode="password">Password</button>
+      <button type="button" data-mode="passphrase">Passphrase</button>
+      <button type="button" data-mode="pin">PIN</button>
+      <button type="button" data-mode="hash">Hash</button>
+    </nav>
+  </div>
+</header>
+<section id="welcome" class="welcome" hidden>
+  <div class="welcome-inner">
+    <svg class="icon"><use href="#i-shield"/></svg>
+    <div>
+      <p><strong>Welcome to Passgen.</strong> Choose how you want your passwords made. Everything you change here is saved straight away and becomes your default.</p>
+      <p>From now on, clicking the Passgen icon in the toolbar copies a new password made with these options to your clipboard. Nothing opens, and it is cleared again after the time set under Options. If you cannot see the icon, pin it from the puzzle piece menu in your browser. To come back here, right click the icon and choose Options.</p>
+    </div>
+    <button id="welcome-close" type="button">Got it</button>
+  </div>
+</section>
+<form id="options" autocomplete="off">
+<div class="layout">
+<aside class="side">
+<div class="result-block">
+  <section id="result">
+    <div id="items" aria-live="polite"></div>
+    <div class="meter"><div id="meter-fill" class="meter-fill"></div></div>
+    <div id="strength-row">
+      <p id="strength"></p>
+      <button type="button" class="help" data-help="strength" aria-label="Explain strength">?</button>
+    </div>
+    <p id="crack"></p>
+    <p id="actual"></p>
+    <p id="notice"></p>
+  </section>
+
+  <div class="actions">
+    <button id="generate" type="button" class="primary"><svg class="icon"><use href="#i-refresh"/></svg>Generate</button>
+    <button id="copy" type="button"><svg class="icon"><use href="#i-copy"/></svg>Copy</button>
+  </div>
+  <p id="status" aria-live="polite"></p>
+</div>
+    <fieldset data-panel="password">
+      <legend>Password <button type="button" class="help" data-help="password" aria-label="Explain these options">?</button></legend>
+      <label class="row">Length
+        <input type="range" name="password.length" min="4" max="128"><output></output>
+      </label>
+      <div class="checks">
+        <label><input type="checkbox" name="password.lower"> Lowercase a-z</label>
+        <label><input type="checkbox" name="password.upper"> Uppercase A-Z</label>
+        <label><input type="checkbox" name="password.digits"> Numbers 0-9</label>
+        <label><input type="checkbox" name="password.symbols"> Symbols</label>
+      </div>
+      <label class="row">Symbols used
+        <input type="text" name="password.symbolSet" class="mono" spellcheck="false">
+      </label>
+      <div class="checks">
+        <label><input type="checkbox" name="password.packs.music"> Music ♪ ♫ ♯</label>
+        <label><input type="checkbox" name="password.packs.chess"> Chess ♔ ♞</label>
+        <label><input type="checkbox" name="password.packs.emoji"> Emoji 😀</label>
+        <label><input type="checkbox" name="password.avoidAmbiguous"> Avoid look-alikes (I l 1 O 0)</label>
+      </div>
+      <p class="hint">Music, chess and emoji characters are rejected by many websites. Use them only where they are accepted.</p>
+      <label class="row">Group into blocks
+        <select name="password.group" data-number>
+          <option value="0">No grouping</option>
+          <option value="3">Blocks of 3</option>
+          <option value="4">Blocks of 4</option>
+          <option value="5">Blocks of 5</option>
+          <option value="6">Blocks of 6</option>
+        </select>
+      </label>
+    </fieldset>
+
+    <fieldset data-panel="passphrase">
+      <legend>Passphrase <button type="button" class="help" data-help="passphrase" aria-label="Explain these options">?</button></legend>
+      <label class="row">Words
+        <input type="range" name="passphrase.words" min="3" max="12"><output></output>
+      </label>
+      <label class="row">Separator
+        <select name="passphrase.separator">
+          <option value="-">Hyphen -</option>
+          <option value=".">Dot .</option>
+          <option value="_">Underscore _</option>
+          <option value=" ">Space</option>
+          <option value="">None</option>
+          <option value="random">Random symbol</option>
+        </select>
+      </label>
+      <div class="row">Word length
+        <select name="passphrase.minLength" data-number aria-label="Shortest word">
+          <option value="0">Any</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+        to
+        <select name="passphrase.maxLength" data-number aria-label="Longest word">
+          <option value="0">Any</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+      <div class="checks">
+        <label><input type="checkbox" name="passphrase.randomLength"> Random word length</label>
+        <label><input type="checkbox" name="passphrase.capitalize"> Capitalise words</label>
+      </div>
+      <div class="row">
+        <label><input type="checkbox" name="passphrase.number"> Add a number at the end</label>
+        <select name="passphrase.digits" data-number aria-label="Digits in the number">
+          <option value="2">2 digits</option>
+          <option value="3">3 digits</option>
+          <option value="4">4 digits</option>
+          <option value="5">5 digits</option>
+          <option value="6">6 digits</option>
+          <option value="7">7 digits</option>
+          <option value="8">8 digits</option>
+          <option value="9">9 digits</option>
+          <option value="10">10 digits</option>
+          <option value="0">Random 2 to 10</option>
+        </select>
+      </div>
+      <div class="checks">
+        <label><input type="checkbox" name="passphrase.filterProfanity"> Filter profanities</label>
+      </div>
+      <label class="row">Words to exclude
+        <input type="text" name="passphrase.blocked" spellcheck="false" placeholder="word, another word">
+      </label>
+      <p class="hint">Separate with commas. A word of 4 or more letters also removes every word containing it.</p>
+      <label class="row">Word list
+        <select id="list-select">
+          <option value="common">Common words</option>
+          <option value="big">Large list</option>
+          <option value="eff">Short, easy words</option>
+          <option value="load">My own list</option>
+        </select>
+      </label>
+      <div id="file-row" hidden>
+        <label class="row">Load list
+          <input type="file" id="custom-file" accept=".txt,text/plain">
+        </label>
+        <p class="hint">One word per line. The more different words, the stronger the result.</p>
+      </div>
+    </fieldset>
+
+    <fieldset data-panel="pin">
+      <legend>PIN <button type="button" class="help" data-help="pin" aria-label="Explain these options">?</button></legend>
+      <label class="row">Length
+        <input type="range" name="pin.length" min="4" max="16"><output></output>
+      </label>
+      <label class="row">Characters
+        <select name="pin.type">
+          <option value="digits">Numbers only</option>
+          <option value="alnum">Numbers and capital letters</option>
+        </select>
+      </label>
+    </fieldset>
+
+    <fieldset data-panel="hash">
+      <legend>Hash-style token <button type="button" class="help" data-help="hash" aria-label="Explain these options">?</button></legend>
+      <label class="row">Size
+        <select name="hash.bits" data-number>
+          <option value="128">128 bit</option>
+          <option value="160">160 bit</option>
+          <option value="256">256 bit (SHA-256 length)</option>
+          <option value="384">384 bit (SHA-384 length)</option>
+          <option value="512">512 bit (SHA-512 length)</option>
+        </select>
+      </label>
+      <label class="row">Format
+        <select name="hash.format">
+          <option value="hex">Hex</option>
+          <option value="base64">Base64</option>
+          <option value="base64url">Base64 URL-safe</option>
+        </select>
+      </label>
+    </fieldset>
+
+  <details id="checker">
+    <summary><svg class="icon"><use href="#i-shield"/></svg>Check a password</summary>
+    <p class="hint">Type or paste a password you already use to see a rough strength. It is checked on this computer only and is never saved or sent anywhere.</p>
+    <div class="row">
+      <input type="password" id="check-input" class="mono" autocomplete="off" spellcheck="false" placeholder="Password to check">
+      <button id="check-toggle" type="button" class="icon-only" title="Show or hide" aria-label="Show or hide"><svg class="icon"><use href="#i-eye"/></svg></button>
+    </div>
+    <div id="check-result" hidden>
+      <div class="meter"><div id="check-fill" class="meter-fill"></div></div>
+      <p id="check-strength" class="result-line"></p>
+      <p id="check-crack" class="hint"></p>
+      <p id="check-note" class="hint"></p>
+    </div>
+    <p class="hint">This is an estimate. It spots very common passwords, everyday words, years and simple runs of numbers, and otherwise treats the password as random, so it can still be a bit generous.</p>
+  </details>
+</aside>
+<main>
+    <fieldset>
+      <legend>Options <button type="button" class="help" data-help="options" aria-label="Explain these options">?</button></legend>
+      <div id="presets">
+    <div class="row">Preset
+      <select id="preset-select" aria-label="Preset"></select>
+      <button id="preset-new" type="button" class="icon-only" title="Save these options as a new preset" aria-label="New preset"><svg class="icon"><use href="#i-plus"/></svg></button>
+      <button id="preset-rename" type="button" class="icon-only" title="Rename this preset" aria-label="Rename preset"><svg class="icon"><use href="#i-pencil"/></svg></button>
+      <button id="preset-delete" type="button" class="icon-only" title="Delete this preset" aria-label="Delete preset"><svg class="icon"><use href="#i-trash"/></svg></button>
+      <button type="button" class="help" data-help="presets" aria-label="Explain presets">?</button>
+    </div>
+    <div class="row" id="preset-name-row" hidden>
+      <input type="text" id="preset-name" maxlength="30" placeholder="Name for this preset" autocomplete="off">
+      <button id="preset-save" type="button">Save</button>
+      <button id="preset-cancel" type="button">Cancel</button>
+    </div>
+    <p class="hint">The toolbar icon copies from the selected preset, and every change you make is saved into it.</p>
+      </div>
+      <label class="row">Clear clipboard after
+        <select name="clearSeconds" data-number>
+          <option value="15">15 seconds</option>
+          <option value="30">30 seconds</option>
+          <option value="60">1 minute</option>
+          <option value="90">90 seconds</option>
+          <option value="120">2 minutes</option>
+          <option value="300">5 minutes</option>
+          <option value="0">Never</option>
+        </select>
+      </label>
+      <p class="hint">Whatever you set here is saved into the selected preset. Saved files are not encrypted.</p>
+      <div id="reset-details" hidden>
+        <p class="hint">Resetting will set:</p>
+        <ul id="reset-list"></ul>
+      </div>
+      <div class="row">
+        <button id="reset" type="button"><svg class="icon"><use href="#i-undo"/></svg><span>Reset to defaults</span></button>
+        <button id="reset-cancel" type="button" hidden>Cancel</button>
+      </div>
+    </fieldset>
+
+    <fieldset data-panel="site">
+      <legend>For fussy sites <button type="button" class="help" data-help="site" aria-label="Explain these options">?</button></legend>
+      <p class="hint">Rules a site makes you follow. Leave a box at 0 for no rule.</p>
+      <div class="row">Length
+        <label class="inline">at least <input type="number" name="site.minLength" min="0" max="128" class="short"></label>
+        <label class="inline">at most <input type="number" name="site.maxLength" min="0" max="128" class="short"></label>
+      </div>
+      <div class="row">Numbers
+        <label class="inline">at least <input type="number" name="site.minDigits" min="0" max="10" class="short"></label>
+        <label class="inline">at most <input type="number" name="site.maxDigits" min="0" max="10" class="short"></label>
+      </div>
+      <div class="row">Symbols
+        <label class="inline">at least <input type="number" name="site.minSymbols" min="0" max="20" class="short"></label>
+        <label class="inline">at most <input type="number" name="site.maxSymbols" min="0" max="20" class="short"></label>
+      </div>
+      <label class="row">Letters
+        <select name="site.letterCase">
+          <option value="any">No rule</option>
+          <option value="both">Upper and lower case</option>
+          <option value="upper">Uppercase only</option>
+          <option value="lower">Lowercase only</option>
+        </select>
+      </label>
+      <label class="row">Same character in a row, at most
+        <input type="number" name="site.maxRepeat" min="0" max="10" class="short">
+      </label>
+      <div class="checks">
+        <label data-modes="password"><input type="checkbox" name="site.startLetter"> Must start with a letter</label>
+        <label><input type="checkbox" name="site.noSequences"> No runs like abc or 123</label>
+        <label><input type="checkbox" name="site.noDates"> Nothing like a birth date</label>
+      </div>
+      <label class="row">Never use these
+        <input type="text" name="site.exclude" class="mono" spellcheck="false" placeholder="characters the site refuses">
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Bulk passwords <button type="button" class="help" data-help="bulk" aria-label="Explain these options">?</button></legend>
+      <label class="row">How many
+        <input type="number" name="count" min="1" max="100" class="short">
+      </label>
+      <p class="hint">1 to 100, used for Copy and Save. The icon click always copies one.</p>
+      <div class="row">Save these as
+        <button id="save-txt" type="button"><svg class="icon"><use href="#i-download"/></svg>.txt file</button>
+        <button id="save-csv" type="button"><svg class="icon"><use href="#i-download"/></svg>.csv file</button>
+      </div>
+    </fieldset>
+
+  <details id="backup">
+    <summary><svg class="icon"><use href="#i-file"/></svg>Back up or move your settings</summary>
+    <p class="hint">Saves all your presets and options to a file, so you can restore them after a reset or move them to another computer. Passwords are never in it, and a loaded word list is not included.</p>
+    <div class="row">
+      <button id="export-settings" type="button"><svg class="icon"><use href="#i-download"/></svg>Export settings</button>
+      <label class="file-button"><svg class="icon"><use href="#i-upload"/></svg>Import settings<input type="file" id="import-file" accept=".json,application/json" hidden></label>
+    </div>
+    <p class="hint">Importing replaces your current presets.</p>
+  </details>
+</main>
+</div>
+</form>
+<script type="module" src="options.js"></script>
+</body>
+</html>

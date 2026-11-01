@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Passgen",
+  "version": "1.1.0",
+  "description": "Strong password, passphrase, PIN and token generator. Click the icon to copy your default password.",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "96": "icons/96.png",
+    "128": "icons/128.png"
+  },
+  "action": {
+    "default_title": "Passgen: click to copy a new password",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["storage", "clipboardWrite", "clipboardRead", "contextMenus", "activeTab", "scripting", "offscreen"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {"default": "Alt+Shift+P"},
+      "description": "Copy a new password"
+    },
+    "open-options": {
+      "suggested_key": {"default": "Alt+Shift+G"},
+      "description": "Open Passgen options"
+    }
+  }
+}
