@@ -52,6 +52,20 @@ Every change on the options page is saved straight away and becomes what the ico
 
 Strong means 80 bits or more. The figure is shown under every result. It never changes what you asked for, it only suggests how to improve it.
 
+## Desktop app
+
+A Windows version of the same generator, in one exe. It has the four types, every option, presets, the rules for fussy sites, the password checker, bulk save to .txt or .csv, and settings backup as JSON. The word lists are built in and it makes no network requests.
+
+- Run `Passgen.exe`. The exe isn't signed, so Windows may warn you the first time. If it does, choose **More info**, then **Run anyway**.
+- It installs itself for your user, with a shortcut on the Desktop, in the Start menu and in the folder you ran it from.
+- To update, run a newer exe. It closes the running copy, replaces the program and keeps your settings. An older exe never replaces a newer install.
+- The version shown bottom left is `v<version> - <checksum>`. The checksum is the start of the exe's SHA-256, so two builds of one version can be told apart.
+- Everything you change is saved at once. Settings has the site rules, how many to make, how long the clipboard keeps the result, presets, backup and reset.
+- Copying keeps the result out of Windows clipboard history, and the clipboard is cleared after the set time if it still holds what was copied.
+- Run the exe with `-Uninstall` to remove the program, shortcuts and settings.
+
+To build it you need the .NET SDK. Then run `desktop\build.cmd`. `Passgen.exe` lands in the `desktop` folder. The settings file, log and installed copy live in `%LOCALAPPDATA%\Passgen`.
+
 ## Privacy
 
 - Passwords are never saved, in any form. They are held in memory while shown and dropped when the tab closes or the clear timer ends.
@@ -68,6 +82,7 @@ Permissions used: `storage`, `clipboardWrite`, `clipboardRead`, `contextMenus`, 
 ## Layout
 
     src/          extension code (options page, background, generator, strength, clipboard)
+    desktop/      Windows app (C#), built with desktop\build.cmd
     manifests/    one manifest per browser
     tools/        build script and word list sources
     test/         tests, run with npm test

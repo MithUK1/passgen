@@ -49,3 +49,16 @@ Short notes on how Passgen is put together, so changes stay consistent.
 - No dead code, no commented out code, no unused files.
 - Every behaviour change in the generator or settings needs a test. Run `npm test` before committing.
 - Browser differences are handled in `src/background.js` and `src/clipboard.js` only.
+
+## Desktop app
+
+The Windows app in `desktop/` follows the same rules as the other exe tools in the collection, and the generator in `desktop/src/Generator.cs` is a port of `src/gen.js`. Change one and check the other.
+
+- C# on .NET Framework 4.8, WinForms drawn in code, no run-time packages. The colours, fonts and flat buttons are defined once in `Theme.cs`. Every window has the accent bar, the app icon and the version label bottom left.
+- The button is called Settings. There is one help page, the README, opened by the Help button in Settings.
+- The version is `Store.AppVersion` and `<Version>` in the project file, and they must match. It is shown as `v<x.y.z> - <checksum>`, the checksum being the first eight characters of the exe's SHA-256. The desktop app has its own version, separate from the extension's.
+- Running the exe installs it to `%LOCALAPPDATA%\Passgen` with an icon and shortcuts (Desktop, Start menu, and the folder it was run from). A newer copy, or the same version with different content, upgrades the install. There is no update check and nothing is downloaded.
+- Everything the user sets lives in `%LOCALAPPDATA%\Passgen\Passgen.ini`, saved through a temporary file that is read back first. An unreadable file is kept as `.bad` and the app starts with defaults. Nothing is kept in the registry. Export and import use JSON. Reset has two levels.
+- The word lists are the same text files the extension is built from, embedded in the exe, so there is one copy of each list.
+- Randomness only from `RandomNumberGenerator`, through the rejection sampling in `Generator.RandomInt`. `System.Random` is used only to measure how often a rule accepts a try.
+- Copy keeps the result out of clipboard history and clears it after the set time, only if the clipboard still holds it.
