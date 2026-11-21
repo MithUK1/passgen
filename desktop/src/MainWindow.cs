@@ -44,6 +44,7 @@ namespace Passgen
 
         private NotifyIcon _tray;
         private bool _hiddenStart;
+        private bool _exiting;
 
         public MainWindow(EventWaitHandle showEvent, EventWaitHandle exitEvent, string notice, bool startHidden)
         {
@@ -52,6 +53,7 @@ namespace Passgen
             ClientSize = new Size(720, 596);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
+            MinimizeBox = !Store.MinimizeToTray;
             KeyPreview = true;
             StartPosition = FormStartPosition.CenterScreen;
             Theme.ApplyChrome(this);
@@ -115,11 +117,11 @@ namespace Passgen
                 Location = new Point(Store.WindowX, Store.WindowY);
             }
             _showWait = ThreadPool.RegisterWaitForSingleObject(showEvent, (state, timedOut) => RunOnWindow(BringForward), null, -1, false);
-            _exitWait = ThreadPool.RegisterWaitForSingleObject(exitEvent, (state, timedOut) => RunOnWindow(Close), null, -1, false);
+            _exitWait = ThreadPool.RegisterWaitForSingleObject(exitEvent, (state, timedOut) => RunOnWindow(ExitApp), null, -1, false);
 
             var menu = new ContextMenuStrip();
             menu.Items.Add("Open Passgen", null, (s, e) => BringForward());
-            menu.Items.Add("Exit", null, (s, e) => Close());
+            menu.Items.Add("Exit", null, (s, e) => ExitApp());
             _tray = new NotifyIcon { Icon = Theme.AppIcon, Text = "Passgen", ContextMenuStrip = menu, Visible = Store.MinimizeToTray };
             _tray.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) BringForward(); };
             Resize += (s, e) => { if (WindowState == FormWindowState.Minimized && Store.MinimizeToTray) Hide(); };
@@ -160,6 +162,14 @@ namespace Passgen
         private void ApplyTray()
         {
             if (_tray != null) _tray.Visible = Store.MinimizeToTray;
+            MinimizeBox = !Store.MinimizeToTray;
+        }
+
+        // Really closes Passgen, even when the close button only hides it.
+        private void ExitApp()
+        {
+            _exiting = true;
+            Close();
         }
 
         // Event handlers never let an error escape: it goes to the log and a short message.
@@ -493,7 +503,13 @@ namespace Passgen
 
         private void OpenSettings()
         {
-            using (var dialog = new SettingsDialog()) dialog.ShowDialog(this);
+            bool exit;
+            using (var dialog = new SettingsDialog())
+            {
+                dialog.ShowDialog(this);
+                exit = dialog.ExitRequested;
+            }
+            if (exit) { ExitApp(); return; }
             LoadAll();
             ApplyTray();
             Store.Save();
@@ -503,6 +519,13 @@ namespace Passgen
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
+            // With the tray on, the close button only hides the window.
+            if (!_exiting && Store.MinimizeToTray && e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+                return;
+            }
             if (_tray != null) _tray.Visible = false;
             if (_clearTimer.Enabled) ClearClipboard();
             if (WindowState == FormWindowState.Normal)
