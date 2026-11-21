@@ -42,8 +42,12 @@ namespace Passgen
 
         private static Settings Current => Store.Active.Settings;
 
-        public MainWindow(EventWaitHandle showEvent, EventWaitHandle exitEvent, string notice)
+        private NotifyIcon _tray;
+        private bool _hiddenStart;
+
+        public MainWindow(EventWaitHandle showEvent, EventWaitHandle exitEvent, string notice, bool startHidden)
         {
+            _hiddenStart = startHidden && Store.MinimizeToTray;
             Text = "Passgen";
             ClientSize = new Size(720, 596);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -113,6 +117,13 @@ namespace Passgen
             _showWait = ThreadPool.RegisterWaitForSingleObject(showEvent, (state, timedOut) => RunOnWindow(BringForward), null, -1, false);
             _exitWait = ThreadPool.RegisterWaitForSingleObject(exitEvent, (state, timedOut) => RunOnWindow(Close), null, -1, false);
 
+            var menu = new ContextMenuStrip();
+            menu.Items.Add("Open Passgen", null, (s, e) => BringForward());
+            menu.Items.Add("Exit", null, (s, e) => Close());
+            _tray = new NotifyIcon { Icon = Theme.AppIcon, Text = "Passgen", ContextMenuStrip = menu, Visible = Store.MinimizeToTray };
+            _tray.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) BringForward(); };
+            Resize += (s, e) => { if (WindowState == FormWindowState.Minimized && Store.MinimizeToTray) Hide(); };
+
             LoadAll();
             Shown += (s, e) => Guarded(Regenerate);
         }
@@ -127,8 +138,28 @@ namespace Passgen
         // A second launch asks this window to come to the front.
         private void BringForward()
         {
+            _hiddenStart = false;
+            if (!Visible) Show();
             if (WindowState == FormWindowState.Minimized) WindowState = FormWindowState.Normal;
             Activate();
+        }
+
+        // Keeps a window that was started hidden from appearing, while still
+        // creating its handle so it can be shown on request.
+        protected override void SetVisibleCore(bool value)
+        {
+            if (_hiddenStart)
+            {
+                if (!IsHandleCreated) CreateHandle();
+                value = false;
+            }
+            base.SetVisibleCore(value);
+        }
+
+        // Shows or hides the tray icon to match the setting.
+        private void ApplyTray()
+        {
+            if (_tray != null) _tray.Visible = Store.MinimizeToTray;
         }
 
         // Event handlers never let an error escape: it goes to the log and a short message.
@@ -464,6 +495,7 @@ namespace Passgen
         {
             using (var dialog = new SettingsDialog()) dialog.ShowDialog(this);
             LoadAll();
+            ApplyTray();
             Store.Save();
             Regenerate();
         }
@@ -471,6 +503,7 @@ namespace Passgen
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
+            if (_tray != null) _tray.Visible = false;
             if (_clearTimer.Enabled) ClearClipboard();
             if (WindowState == FormWindowState.Normal)
             {
@@ -486,6 +519,7 @@ namespace Passgen
             {
                 if (_showWait != null) _showWait.Unregister(null);
                 if (_exitWait != null) _exitWait.Unregister(null);
+                if (_tray != null) _tray.Dispose();
                 _refresh.Dispose();
                 _clearTimer.Dispose();
             }

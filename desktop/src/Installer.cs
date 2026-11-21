@@ -79,6 +79,31 @@ namespace Passgen
             if (!changed.Contains("shortcuts")) changed.Add("shortcuts");
         }
 
+        // Adds or removes the Startup-folder shortcut to match the setting.
+        // It starts the installed copy hidden in the tray.
+        public static void ApplyStartup()
+        {
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder)) return;
+            string file = Path.Combine(folder, "Passgen.lnk");
+            if (!Store.StartWithWindows)
+            {
+                if (File.Exists(file)) File.Delete(file);
+                return;
+            }
+            if (!File.Exists(InstalledExe)) return;
+            dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("WScript.Shell"));
+            dynamic link = shell.CreateShortcut(file);
+            string wantIcon = IconPath + ",0";
+            if (File.Exists(file) && string.Equals((string)link.TargetPath, InstalledExe, StringComparison.OrdinalIgnoreCase) && (string)link.Arguments == "--tray" && (string)link.IconLocation == wantIcon) return;
+            link.TargetPath = InstalledExe;
+            link.Arguments = "--tray";
+            link.IconLocation = wantIcon;
+            link.WorkingDirectory = AppDir;
+            link.Description = "Generate passwords and passphrases";
+            link.Save();
+        }
+
         // The folders that get a shortcut to the installed copy.
         private static string[] ShortcutFolders()
         {
@@ -156,6 +181,8 @@ namespace Passgen
         public static void Uninstall()
         {
             StopRunningCopy();
+            Store.StartWithWindows = false;
+            try { ApplyStartup(); } catch (Exception ex) { AppLog.Write("Couldn't remove the startup shortcut: " + ex.Message); }
             foreach (string folder in ShortcutFolders().Concat(new[] { SourceFolder() }))
             {
                 if (string.IsNullOrEmpty(folder)) continue;
@@ -236,11 +263,15 @@ namespace Passgen
                     return 0;
                 }
 
+                if (string.Equals(Installer.CurrentExe, Installer.InstalledExe, StringComparison.OrdinalIgnoreCase))
+                {
+                    try { Installer.ApplyStartup(); } catch (Exception ex) { AppLog.Write("Startup shortcut failed: " + ex.Message); }
+                }
                 AppLog.Trim();
                 AppLog.Write("Passgen started");
                 try
                 {
-                    Application.Run(new MainWindow(showEvent, exitEvent, Store.TakePendingNotice()));
+                    Application.Run(new MainWindow(showEvent, exitEvent, Store.TakePendingNotice(), args.Any(a => a.Equals("--tray", StringComparison.OrdinalIgnoreCase))));
                 }
                 finally
                 {

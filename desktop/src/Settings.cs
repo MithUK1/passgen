@@ -242,6 +242,8 @@ namespace Passgen
         public static string LastFolder = "";
         public static int WindowX = int.MinValue;
         public static int WindowY = int.MinValue;
+        public static bool MinimizeToTray = true;
+        public static bool StartWithWindows = true;
         public static bool HadFile;
         public static bool Removed { get; private set; }
 
@@ -298,6 +300,8 @@ namespace Passgen
                 PendingNotice = Get(app, "PendingNotice");
                 CustomListPath = Get(app, "CustomList");
                 LastFolder = Get(app, "LastFolder");
+                MinimizeToTray = Get(app, "MinimizeToTray") != "0";
+                StartWithWindows = Get(app, "StartWithWindows") != "0";
                 int x, y;
                 if (int.TryParse(Get(app, "WindowX"), out x) && int.TryParse(Get(app, "WindowY"), out y)) { WindowX = x; WindowY = y; }
             }
@@ -344,7 +348,9 @@ namespace Passgen
                     { "InstalledVersion", InstalledVersion },
                     { "PendingNotice", PendingNotice },
                     { "CustomList", CustomListPath },
-                    { "LastFolder", LastFolder }
+                    { "LastFolder", LastFolder },
+                    { "MinimizeToTray", MinimizeToTray ? "1" : "0" },
+                    { "StartWithWindows", StartWithWindows ? "1" : "0" }
                 };
                 if (WindowX != int.MinValue) { app["WindowX"] = WindowX.ToString(); app["WindowY"] = WindowY.ToString(); }
                 ini.Sections.Add(new KeyValuePair<string, Dictionary<string, string>>("App", app));

@@ -37,6 +37,7 @@ namespace Passgen
             _tabs.Font = Theme.UiFont;
             AddTab("Site rules", BuildSiteTab);
             AddTab("Output", BuildOutputTab);
+            AddTab("App", BuildAppTab);
             AddTab("Presets", BuildPresetsTab);
             AddTab("Data", BuildDataTab);
             Controls.Add(_tabs);
@@ -155,6 +156,26 @@ namespace Passgen
                 AppLog.Write("Save failed: " + ex.Message);
                 MessageBox.Show("The file couldn't be saved: " + ex.Message, "Passgen", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void BuildAppTab(Panel p)
+        {
+            CheckBox tray = Theme.NewCheck("Minimise to the tray", 12, 14, 300);
+            tray.Checked = Store.MinimizeToTray;
+            tray.CheckedChanged += (s, e) => { Store.MinimizeToTray = tray.Checked; Store.Save(); };
+            p.Controls.Add(tray);
+            p.Controls.Add(Hint("Minimising hides Passgen in the notification area instead of the taskbar. Click its icon to bring it back, or right-click it to exit.", 32, 42, 470));
+            CheckBox startup = Theme.NewCheck("Start with Windows", 12, 104, 300);
+            startup.Checked = Store.StartWithWindows;
+            startup.CheckedChanged += (s, e) =>
+            {
+                Store.StartWithWindows = startup.Checked;
+                Store.Save();
+                try { Installer.ApplyStartup(); }
+                catch (Exception ex) { AppLog.Write("Startup shortcut failed: " + ex.Message); }
+            };
+            p.Controls.Add(startup);
+            p.Controls.Add(Hint("Passgen starts when you sign in, hidden in the tray, if minimising to the tray is on. Otherwise it opens its window.", 32, 132, 470));
         }
 
         private void BuildPresetsTab(Panel p)
