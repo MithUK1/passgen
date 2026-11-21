@@ -266,9 +266,13 @@ namespace Passgen
         {
             Panel p = _panels[3] = NewPanel(parent);
             Label sizeValue;
-            TrackBar size = AddSlider(p, "Size", 0, 4, 128, out sizeValue);
+            TrackBar size = AddSlider(p, "Size", 0, 0, Settings.HashSizes.Length - 1, out sizeValue);
             sizeValue.Width = 220;
-            _binder.Track(size, sizeValue, s => s.HashBits / 8, (s, v) => s.HashBits = v * 8, v => (v * 8) + " bits (" + v + " bytes)");
+            size.LargeChange = 1;
+            _binder.Track(size, sizeValue,
+                s => Math.Max(0, Array.IndexOf(Settings.HashSizes, s.HashBits)),
+                (s, v) => s.HashBits = Settings.HashSizes[v],
+                v => Settings.HashSizes[v] + " bits (" + (Settings.HashSizes[v] / 8) + " bytes)");
             p.Controls.Add(RowLabel("Format", 38));
             ComboBox format = Theme.NewDropDown(108, 36, 260, "Hex", "Base64", "Base64 URL-safe");
             p.Controls.Add(format);
