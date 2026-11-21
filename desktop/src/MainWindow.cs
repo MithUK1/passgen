@@ -45,15 +45,15 @@ namespace Passgen
         private NotifyIcon _tray;
         private bool _hiddenStart;
         private bool _exiting;
+        private bool _closingToTray;
 
         public MainWindow(EventWaitHandle showEvent, EventWaitHandle exitEvent, string notice, bool startHidden)
         {
-            _hiddenStart = startHidden && Store.MinimizeToTray;
+            _hiddenStart = startHidden && (Store.MinimizeToTray || Store.CloseToTray);
             Text = "Passgen";
             ClientSize = new Size(720, 596);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            MinimizeBox = !Store.MinimizeToTray;
             KeyPreview = true;
             StartPosition = FormStartPosition.CenterScreen;
             Theme.ApplyChrome(this);
@@ -122,9 +122,9 @@ namespace Passgen
             var menu = new ContextMenuStrip();
             menu.Items.Add("Open Passgen", null, (s, e) => BringForward());
             menu.Items.Add("Exit", null, (s, e) => ExitApp());
-            _tray = new NotifyIcon { Icon = Theme.AppIcon, Text = "Passgen", ContextMenuStrip = menu, Visible = Store.MinimizeToTray };
+            _tray = new NotifyIcon { Icon = Theme.AppIcon, Text = "Passgen", ContextMenuStrip = menu, Visible = Store.MinimizeToTray || Store.CloseToTray };
             _tray.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) BringForward(); };
-            Resize += (s, e) => { if (WindowState == FormWindowState.Minimized && Store.MinimizeToTray) Hide(); };
+            Resize += (s, e) => { if (WindowState == FormWindowState.Minimized && (Store.MinimizeToTray || _closingToTray)) Hide(); };
 
             LoadAll();
             Shown += (s, e) => Guarded(Regenerate);
@@ -161,8 +161,7 @@ namespace Passgen
         // Shows or hides the tray icon to match the setting.
         private void ApplyTray()
         {
-            if (_tray != null) _tray.Visible = Store.MinimizeToTray;
-            MinimizeBox = !Store.MinimizeToTray;
+            if (_tray != null) _tray.Visible = Store.MinimizeToTray || Store.CloseToTray;
         }
 
         // Really closes Passgen, even when the close button only hides it.
@@ -519,11 +518,18 @@ namespace Passgen
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            // With the tray on, the close button only hides the window.
-            if (!_exiting && Store.MinimizeToTray && e.CloseReason == CloseReason.UserClosing)
+            // With close-to-tray on, the close button minimises the window
+            // (so it gets the usual animation) and then hides it.
+            if (!_exiting && Store.CloseToTray && e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
-                Hide();
+                _closingToTray = true;
+                try
+                {
+                    WindowState = FormWindowState.Minimized;
+                    if (Visible) Hide();
+                }
+                finally { _closingToTray = false; }
                 return;
             }
             if (_tray != null) _tray.Visible = false;

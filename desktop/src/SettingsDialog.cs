@@ -161,12 +161,17 @@ namespace Passgen
 
         private void BuildAppTab(Panel p)
         {
-            CheckBox tray = Theme.NewCheck("Close to the tray", 12, 14, 300);
+            CheckBox tray = Theme.NewCheck("Minimise to the tray", 12, 14, 300);
             tray.Checked = Store.MinimizeToTray;
             tray.CheckedChanged += (s, e) => { Store.MinimizeToTray = tray.Checked; Store.Save(); };
             p.Controls.Add(tray);
-            p.Controls.Add(Hint("The close button hides Passgen in the notification area instead of closing it, and the minimise button is removed. Click the tray icon to bring it back. With this off, the window has both buttons and close exits.", 32, 42, 470));
-            CheckBox startup = Theme.NewCheck("Start with Windows", 12, 104, 300);
+            p.Controls.Add(Hint("The minimise button hides Passgen in the notification area instead of the taskbar. Click the tray icon to bring it back.", 32, 40, 470));
+            CheckBox closeTray = Theme.NewCheck("Close to the tray", 12, 84, 300);
+            closeTray.Checked = Store.CloseToTray;
+            closeTray.CheckedChanged += (s, e) => { Store.CloseToTray = closeTray.Checked; Store.Save(); };
+            p.Controls.Add(closeTray);
+            p.Controls.Add(Hint("The close button hides Passgen in the tray instead of exiting. With this off, close exits.", 32, 110, 470));
+            CheckBox startup = Theme.NewCheck("Start with Windows", 12, 154, 300);
             startup.Checked = Store.StartWithWindows;
             startup.CheckedChanged += (s, e) =>
             {
@@ -176,11 +181,11 @@ namespace Passgen
                 catch (Exception ex) { AppLog.Write("Startup shortcut failed: " + ex.Message); }
             };
             p.Controls.Add(startup);
-            Button exit = Theme.NewButton("Exit Passgen", 12, 190, 140, 30);
+            Button exit = Theme.NewButton("Exit Passgen", 12, 236, 140, 30);
             exit.Click += (s, e) => { ExitRequested = true; DialogResult = DialogResult.OK; Close(); };
             p.Controls.Add(exit);
-            p.Controls.Add(Hint("Closes Passgen completely. You can also right-click the tray icon and choose Exit.", 12, 226, 490));
-            p.Controls.Add(Hint("Passgen starts when you sign in, hidden in the tray, if minimising to the tray is on. Otherwise it opens its window.", 32, 132, 470));
+            p.Controls.Add(Hint("Closes Passgen completely. You can also right-click the tray icon and choose Exit.", 12, 272, 490));
+            p.Controls.Add(Hint("Passgen starts when you sign in, hidden in the tray if either tray option is on. Otherwise it opens its window.", 32, 180, 470));
         }
 
         private void BuildPresetsTab(Panel p)

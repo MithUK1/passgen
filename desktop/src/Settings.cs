@@ -243,6 +243,7 @@ namespace Passgen
         public static int WindowX = int.MinValue;
         public static int WindowY = int.MinValue;
         public static bool MinimizeToTray = true;
+        public static bool CloseToTray = true;
         public static bool StartWithWindows = true;
         public static bool HadFile;
         public static bool Removed { get; private set; }
@@ -301,6 +302,7 @@ namespace Passgen
                 CustomListPath = Get(app, "CustomList");
                 LastFolder = Get(app, "LastFolder");
                 MinimizeToTray = Get(app, "MinimizeToTray") != "0";
+                CloseToTray = Get(app, "CloseToTray") != "0";
                 StartWithWindows = Get(app, "StartWithWindows") != "0";
                 int x, y;
                 if (int.TryParse(Get(app, "WindowX"), out x) && int.TryParse(Get(app, "WindowY"), out y)) { WindowX = x; WindowY = y; }
@@ -350,6 +352,7 @@ namespace Passgen
                     { "CustomList", CustomListPath },
                     { "LastFolder", LastFolder },
                     { "MinimizeToTray", MinimizeToTray ? "1" : "0" },
+                    { "CloseToTray", CloseToTray ? "1" : "0" },
                     { "StartWithWindows", StartWithWindows ? "1" : "0" }
                 };
                 if (WindowX != int.MinValue) { app["WindowX"] = WindowX.ToString(); app["WindowY"] = WindowY.ToString(); }
