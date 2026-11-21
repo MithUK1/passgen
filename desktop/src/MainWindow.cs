@@ -265,10 +265,10 @@ namespace Passgen
         private void BuildHashPanel(Control parent)
         {
             Panel p = _panels[3] = NewPanel(parent);
-            p.Controls.Add(RowLabel("Size", 2));
-            ComboBox size = Theme.NewDropDown(108, 0, 260, "128 bit", "160 bit", "256 bit (SHA-256 length)", "384 bit (SHA-384 length)", "512 bit (SHA-512 length)");
-            p.Controls.Add(size);
-            _binder.ComboInt(size, Settings.HashSizes, s => s.HashBits, (s, v) => s.HashBits = v);
+            Label sizeValue;
+            TrackBar size = AddSlider(p, "Size", 0, 4, 128, out sizeValue);
+            sizeValue.Width = 220;
+            _binder.Track(size, sizeValue, s => s.HashBits / 8, (s, v) => s.HashBits = v * 8, v => (v * 8) + " bits (" + v + " bytes)");
             p.Controls.Add(RowLabel("Format", 38));
             ComboBox format = Theme.NewDropDown(108, 36, 260, "Hex", "Base64", "Base64 URL-safe");
             p.Controls.Add(format);

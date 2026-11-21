@@ -600,7 +600,7 @@ namespace Passgen
         // A random token the size of a hash, in hex or base64.
         private static Plan PlanHash(Settings s)
         {
-            int bits = Settings.HashSizes.Contains(s.HashBits) ? s.HashBits : 256;
+            int bits = Math.Min(1024, Math.Max(32, s.HashBits / 8 * 8));
             Func<string> make = () =>
             {
                 var bytes = new byte[bits / 8];

@@ -72,16 +72,17 @@ namespace Passgen
         }
 
         // A slider with a label beside it that shows the value.
-        public void Track(TrackBar bar, Label value, Func<Settings, int> get, Action<Settings, int> set)
+        public void Track(TrackBar bar, Label value, Func<Settings, int> get, Action<Settings, int> set, Func<int, string> format = null)
         {
+            if (format == null) format = v => v.ToString();
             _loaders.Add(() =>
             {
                 bar.Value = Math.Min(bar.Maximum, Math.Max(bar.Minimum, get(_current())));
-                value.Text = bar.Value.ToString();
+                value.Text = format(bar.Value);
             });
             bar.ValueChanged += (sender, e) =>
             {
-                value.Text = bar.Value.ToString();
+                value.Text = format(bar.Value);
                 Edited(s => set(s, bar.Value));
             };
         }
