@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 function readList(name, minimum) {
-  const list = readFileSync(join(root, 'tools/lists', name), 'utf8').split('\n').filter(Boolean);
+  const list = readFileSync(join(root, 'tools/lists', name), 'utf8').split(/\r?\n/).filter(Boolean);
   if (list.length < minimum || new Set(list).size !== list.length) {
     throw new Error(`${name} needs ${minimum}+ different entries, found ${list.length}`);
   }
