@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Passgen",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnizxl+rLkajA8GSOiiGke2AvK+B6WdQNMK9KECTV7E/YNlaefm+0KHxyLpNfgvFNQBzifv1lQ5vgotTAqeZ1pxCgeHy+iqfsiLcMVf/NrWxASVCXMVwn3NbsUOm/zeH92AZhTl3B+CwIhdvmsLaZ27nWDcoCBOrpdOk2b01ABfZIHWaXApayAw58qepeBQ3b92Tcq7wuQONG/O9xdtJR0ET04rfKAPqb/c6oc080fyqUIrprAqBlcYtA5VgDnfHkd3tppwAR/dFpi/XfGrfZOoCRZsciQq3X6Meszl1DpjStezwzj5lJFpJ2AaJNOYSp4b6JbwD9dAQ8LJINXDsVWwIDAQAB",
   "description": "Strong password, passphrase, PIN and token generator. Click the icon to copy your default password.",
   "minimum_chrome_version": "116",
