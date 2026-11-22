@@ -246,3 +246,7 @@ summary .icon { margin-right: 8px; }
 .inline { display: inline-flex; align-items: center; gap: 6px; }
 .row > .inline { flex: none; }
 .row { flex-wrap: wrap; }
+
+.top-help { color: var(--muted); font-size: 0.9em; text-decoration: none; padding: 4px 8px; border-radius: 6px; }
+.top-help:hover { color: var(--text, inherit); text-decoration: underline; }
+.version { margin: 16px 0 8px; font-size: 0.75em; color: var(--muted); text-align: left; }

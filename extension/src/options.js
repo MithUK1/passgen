@@ -512,6 +512,8 @@ renderPresets();
 writeForm();
 render();
 
+$('version').textContent = `v${ext.runtime.getManifest().version}`;
+
 $('welcome').hidden = Boolean((await ext.storage.local.get('welcomed')).welcomed);
 
 $('welcome-close').addEventListener('click', async () => {
