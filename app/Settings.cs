@@ -229,7 +229,7 @@ namespace Passgen
     /// </summary>
     public static class Store
     {
-        public const string AppVersion = "0.2.0";
+        public const string AppVersion = "1.0.0";
         public const int MaxPresets = 20;
         public const string HelpUrl = "https://github.com/MithUK1/passgen#readme";
         private const string PresetPrefix = "Preset:";
