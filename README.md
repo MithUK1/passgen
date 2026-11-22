@@ -2,7 +2,7 @@
 
 A password generator for Chrome, Edge and Firefox, with a matching Windows app. One click puts a strong password on your clipboard, nothing is sent anywhere, and nothing is kept afterwards.
 
-- Version: 1.1.0
+- Version: 0.2.0 (extension and Windows app share one number; 1.0 comes when both are final)
 - Repo: https://github.com/MithUK1/Passgen
 - Browsers: Chrome and Edge (Manifest V3, the same build) and Firefox 140 or newer
 - The Windows app has the same types, sizes and options as the extension. See Desktop app below.
