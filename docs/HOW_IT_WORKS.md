@@ -127,25 +127,25 @@ You need Node.
     npm run build
     npm test
 
-The build puts a ready-to-load copy for each browser in `dist/chrome` and `dist/firefox`.
+The build puts a ready-to-load copy for each browser in `extension/chrome` and `extension/firefox`.
 
-- Chrome: go to `chrome://extensions`, turn on Developer mode, Load unpacked, and pick `dist/chrome`.
-- Firefox: go to `about:debugging`, This Firefox, Load Temporary Add-on, and pick `dist/firefox/manifest.json`. For something permanent it has to be signed.
+- Chrome: go to `chrome://extensions`, turn on Developer mode, Load unpacked, and pick `extension/chrome`.
+- Firefox: go to `about:debugging`, This Firefox, Load Temporary Add-on, and pick `extension/firefox/manifest.json`. For something permanent it has to be signed.
 
 ## Where things are
 
-- `src/gen.js` - all the generating and the strength maths. No browser bits in it, so the tests can run it in plain Node.
-- `src/settings.js` - the defaults, presets, and loading, saving and cleaning of stored settings.
-- `src/strength.js` - the estimate for the "Check a password" box.
-- `src/help.js` - the text behind the ? buttons.
-- `src/wordlist.js` - picks the word list and applies the profanity filter and your excluded words.
-- `src/clipboard.js` - copy, timer, and safe clearing.
-- `src/background.js` - icon click, right click menu, shortcuts, passes copies to the clipboard code.
-- `src/offscreen.html` and `src/offscreen.js` - the hidden page Chrome needs.
-- `src/options.html`, `.css` and `.js` - the options page.
-- `manifests/` - one manifest per browser. The build copies the right one in.
+- `extension/src/gen.js` - all the generating and the strength maths. No browser bits in it, so the tests can run it in plain Node.
+- `extension/src/settings.js` - the defaults, presets, and loading, saving and cleaning of stored settings.
+- `extension/src/strength.js` - the estimate for the "Check a password" box.
+- `extension/src/help.js` - the text behind the ? buttons.
+- `extension/src/wordlist.js` - picks the word list and applies the profanity filter and your excluded words.
+- `extension/src/clipboard.js` - copy, timer, and safe clearing.
+- `extension/src/background.js` - icon click, right click menu, shortcuts, passes copies to the clipboard code.
+- `extension/src/offscreen.html` and `extension/src/offscreen.js` - the hidden page Chrome needs.
+- `extension/src/options.html`, `.css` and `.js` - the options page.
+- `extension/manifests/` - one manifest per browser. The build copies the right one in.
 - `tools/lists/` - the word lists, which the build turns into the files the extension loads.
-- `test/gen.test.js` - tests for the generating, strength numbers, site limits, word lengths, filtering, the password check and stored settings.
+- `tests/gen.test.js` - tests for the generating, strength numbers, site limits, word lengths, filtering, the password check and stored settings.
 
 ## Things I know about
 

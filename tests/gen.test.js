@@ -1,9 +1,9 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {generate, randomInt, parseWordList, parseTerms, withoutTerms, strengthOf, crackTime, looksLikeDate, hasSequence, MIN_BITS, PACKS} from '../src/gen.js';
-import {estimatePassword} from '../src/strength.js';
-import {DEFAULTS, sanitizeState} from '../src/settings.js';
+import {generate, randomInt, parseWordList, parseTerms, withoutTerms, strengthOf, crackTime, looksLikeDate, hasSequence, MIN_BITS, PACKS} from '../extension/src/gen.js';
+import {estimatePassword} from '../extension/src/strength.js';
+import {DEFAULTS, sanitizeState} from '../extension/src/settings.js';
 
 const readList = name =>
   readFileSync(new URL(`../tools/lists/${name}`, import.meta.url), 'utf8').split('\n').filter(Boolean);

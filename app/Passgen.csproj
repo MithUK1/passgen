@@ -30,11 +30,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="app.ico" LogicalName="app.ico" />
-    <EmbeddedResource Include="..\..\tools\lists\eff_large.txt" LogicalName="eff.txt" />
-    <EmbeddedResource Include="..\..\tools\lists\words_common.txt" LogicalName="common.txt" />
-    <EmbeddedResource Include="..\..\tools\lists\words_common_all.txt" LogicalName="common_all.txt" />
-    <EmbeddedResource Include="..\..\tools\lists\words_clean.txt" LogicalName="big_clean.txt" />
-    <EmbeddedResource Include="..\..\tools\lists\words_all.txt" LogicalName="big_all.txt" />
-    <EmbeddedResource Include="..\..\tools\lists\profanity.txt" LogicalName="profanity.txt" />
+    <EmbeddedResource Include="..\tools\lists\eff_large.txt" LogicalName="eff.txt" />
+    <EmbeddedResource Include="..\tools\lists\words_common.txt" LogicalName="common.txt" />
+    <EmbeddedResource Include="..\tools\lists\words_common_all.txt" LogicalName="common_all.txt" />
+    <EmbeddedResource Include="..\tools\lists\words_clean.txt" LogicalName="big_clean.txt" />
+    <EmbeddedResource Include="..\tools\lists\words_all.txt" LogicalName="big_all.txt" />
+    <EmbeddedResource Include="..\tools\lists\profanity.txt" LogicalName="profanity.txt" />
   </ItemGroup>
 </Project>

@@ -2,10 +2,8 @@
 
 A password generator for Chrome, Edge and Firefox, with a matching Windows app. One click puts a strong password on your clipboard, nothing is sent anywhere, and nothing is kept afterwards.
 
-- Version: 0.2.0 (extension and Windows app share one number; 1.0 comes when both are final)
-- Repo: https://github.com/MithUK1/Passgen
-- Browsers: Chrome and Edge (Manifest V3, the same build) and Firefox 140 or newer
-- The Windows app has the same types, sizes and options as the extension. See Desktop app below.
+- Browsers: Chrome and Edge (Manifest V3, the same build) and Firefox 140 or newer.
+- The Windows app has the same types, sizes and options as the extension, and the two always share one version number.
 
 ## What it does
 
@@ -20,18 +18,20 @@ A password generator for Chrome, Edge and Firefox, with a matching Windows app. 
 
 ## Install
 
-You need Node to build it.
+**Windows app:** one exe, `Passgen.exe`, in the top of the Passgen folder. It has the four types, every option, presets, the rules for fussy sites, the password checker, bulk save to .txt or .csv, and settings backup as JSON. The word lists are built in and it makes no network requests.
 
-    npm run build
-    npm test
+- Run `Passgen.exe`. The exe isn't signed, so Windows may warn you the first time. If it does, choose **More info**, then **Run anyway**.
+- It installs itself for your user, with a shortcut on the Desktop, in the Start menu and in the folder you ran it from.
+- To update, run a newer exe. It closes the running copy, replaces the program and keeps your settings. An older exe never replaces a newer install.
+- Run the exe with `-Uninstall` to remove the program, shortcuts and settings.
 
-The build writes a ready-to-load copy for each browser to `dist/chrome` and `dist/firefox`.
+**Browser extension:** load the ready-built copy from the `extension` folder.
 
-- Chrome: open `chrome://extensions`, turn on Developer mode, choose Load unpacked and pick `dist/chrome`.
-- Edge: open `edge://extensions`, turn on Developer mode, choose Load unpacked and pick `dist/chrome`.
-- Firefox: open `about:debugging`, choose This Firefox, then Load Temporary Add-on and pick `dist/firefox/manifest.json`.
+- Chrome: open `chrome://extensions`, turn on Developer mode, choose Load unpacked and pick `extension\chrome`.
+- Edge: open `edge://extensions`, turn on Developer mode, choose Load unpacked and pick `extension\chrome`.
+- Firefox: open `about:debugging`, choose This Firefox, then Load Temporary Add-on and pick `extension\firefox\manifest.json`.
 
-## Use
+## Using it
 
 | Action | How |
 | --- | --- |
@@ -40,6 +40,11 @@ The build writes a ready-to-load copy for each browser to `dist/chrome` and `dis
 | Fill a box | Right click it and choose "Insert a Passgen password here" |
 
 Every change on the options page is saved straight away and becomes what the icon copies. There is no save button. Reset to defaults is at the bottom of the page and needs a second click to confirm.
+
+In the Windows app:
+
+- The version shown bottom left is `v<version> - <checksum>`. The checksum is the start of the exe's SHA-256, so two builds of one version can be told apart.
+- Copying keeps the result out of Windows clipboard history, and the clipboard is cleared after the set time if it still holds what was copied.
 
 ## Settings
 
@@ -54,20 +59,15 @@ Every change on the options page is saved straight away and becomes what the ico
 
 Strong means 80 bits or more. The figure is shown under every result. It never changes what you asked for, it only suggests how to improve it.
 
-## Desktop app
+In the Windows app:
 
-A Windows version of the same generator, in one exe. It has the four types, every option, presets, the rules for fussy sites, the password checker, bulk save to .txt or .csv, and settings backup as JSON. The word lists are built in and it makes no network requests.
-
-- Run `Passgen.exe`. The exe isn't signed, so Windows may warn you the first time. If it does, choose **More info**, then **Run anyway**.
-- It installs itself for your user, with a shortcut on the Desktop, in the Start menu and in the folder you ran it from.
-- To update, run a newer exe. It closes the running copy, replaces the program and keeps your settings. An older exe never replaces a newer install.
-- The version shown bottom left is `v<version> - <checksum>`. The checksum is the start of the exe's SHA-256, so two builds of one version can be told apart.
 - Settings has an App tab with three options, all on by default: minimise to the tray, close to the tray, and start with Windows. Start with Windows puts a shortcut in your Startup folder and opens Passgen hidden in the tray. Click the tray icon to bring the window back. To exit, right-click the tray icon and choose Exit, or use Exit Passgen on the App tab. With close to the tray off, the close button exits.
 - Everything you change is saved at once. Settings has the site rules, how many to make, how long the clipboard keeps the result, presets, backup and reset.
-- Copying keeps the result out of Windows clipboard history, and the clipboard is cleared after the set time if it still holds what was copied.
-- Run the exe with `-Uninstall` to remove the program, shortcuts and settings.
 
-To build it you need the .NET SDK. Then run `desktop\build.cmd`. `Passgen.exe` lands in the `desktop` folder. The settings file, log and installed copy live in `%LOCALAPPDATA%\Passgen`.
+## Where things are stored
+
+- Extension: presets and settings in the browser's own extension storage.
+- Windows app: settings file, log and installed copy in `%LOCALAPPDATA%\Passgen`.
 
 ## Privacy
 
@@ -77,24 +77,32 @@ To build it you need the .NET SDK. Then run `desktop\build.cmd`. `Passgen.exe` l
 
 Permissions used: `storage`, `clipboardWrite`, `clipboardRead`, `contextMenus`, `activeTab`, `scripting`, and `offscreen` on Chrome only. There is no website access.
 
-## More detail
-
-- [HOW_IT_WORKS.md](HOW_IT_WORKS.md) explains how each part works and why it was done that way.
-- [CONVENTIONS.md](CONVENTIONS.md) covers the look, help text, versioning, settings handling and code style.
-
-## Layout
-
-    src/          extension code (options page, background, generator, strength, clipboard)
-    desktop/      Windows app (C#), built with desktop\build.cmd
-    manifests/    one manifest per browser
-    tools/        build script and word list sources
-    test/         tests, run with npm test
-    store/        listing text and artwork for the extension stores
-
-## Known limits
+## Troubleshooting
 
 - Right click fill does not work on pages where the browser blocks extensions, such as its own settings pages. The password is still copied.
 - Some sites reject symbols, emoji or very long passwords. Turn those options down for them.
+
+## Build from source
+
+You need the .NET SDK for the Windows app and Node for the extension.
+
+    build.cmd        builds Passgen.exe and both extension folders
+    npm run build    builds the extension only, into extension\chrome and extension\firefox
+    npm test         runs the tests
+
+Layout:
+
+    app/                 Windows app (C#)
+    extension/src/       extension code (options page, background, generator, strength, clipboard)
+    extension/manifests/ one manifest per browser
+    tools/               build script, word list sources and artwork
+    tests/               tests, run with npm test
+    store/               listing text and artwork for the extension stores
+    docs/                how it works and the conventions
+
+`Passgen.exe`, the folder shortcut and the built `extension\chrome` and `extension\firefox` folders are not kept in the repo.
+
+More detail: [docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md) explains how each part works and why. [docs/CONVENTIONS.md](docs/CONVENTIONS.md) covers the look, help text, versioning, settings handling and code style.
 
 ## Licence
 

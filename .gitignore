@@ -1,2 +1,11 @@
-dist/
 node_modules/
+*.pem
+*.lnk
+*.bak
+Passgen.exe
+Backups/
+extension/chrome/
+extension/firefox/
+extension/*.zip
+app/bin/
+app/obj/

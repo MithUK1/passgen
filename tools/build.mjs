@@ -24,15 +24,15 @@ const lists = {
 const chromeOnly = new Set(['offscreen.html', 'offscreen.js']);
 
 for (const browser of ['chrome', 'firefox']) {
-  const out = join(root, 'dist', browser);
+  const out = join(root, 'extension', browser);
   rmSync(out, {recursive: true, force: true});
-  cpSync(join(root, 'src'), out, {
+  cpSync(join(root, 'extension', 'src'), out, {
     recursive: true,
     filter: source => browser === 'chrome' || !chromeOnly.has(basename(source))
   });
-  cpSync(join(root, 'manifests', `${browser}.json`), join(out, 'manifest.json'));
+  cpSync(join(root, 'extension', 'manifests', `${browser}.json`), join(out, 'manifest.json'));
   for (const [file, words] of Object.entries(lists)) {
     writeFileSync(join(out, file), `export default ${JSON.stringify(words)};\n`);
   }
-  console.log(`built dist/${browser}`);
+  console.log(`built extension/${browser}`);
 }
