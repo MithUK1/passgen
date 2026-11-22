@@ -14,6 +14,7 @@ Short notes on how Passgen is put together, so changes stay consistent.
 
 ## Help text
 
+- A **Help** link at the top right of the options page opens the README on GitHub. The version shows as `vX.Y.Z`, small, in the bottom left, read from the manifest so it never needs editing by hand.
 - Every section with a choice that is not obvious has a `?` button. All the wording lives in `extension/src/help.js`, keyed by section.
 - Plain sentences, second person, no jargon. Say what it does, then why you might change it.
 - Numbers quoted in help (defaults, limits, bit figures) must match the code. Check them when a default changes.

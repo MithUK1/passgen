@@ -1,14 +1,12 @@
-# Passgen store listing text
-
-Version 1.1.0
+# Store listing text
 
 ## Name
 Passgen
 
-## Summary (Chrome, 132 characters max)
+## Summary (Chrome, max 132 characters)
 Strong passwords and passphrases in one click. Nothing saved, nothing sent, clipboard cleared for you.
 
-## Summary (Firefox, 250 characters max)
+## Summary (Firefox, max 250 characters)
 Click the toolbar icon to copy a strong password or passphrase. Presets, rules for fussy sites, a password checker and automatic clipboard clearing. Everything stays on your computer.
 
 ## Description
@@ -16,45 +14,46 @@ Passgen makes strong passwords, passphrases, PINs and random tokens, and gets ou
 
 Click the toolbar icon and a new password goes on your clipboard, made with your chosen options. About a minute and a half later the clipboard is wiped, unless you have copied something else since, in which case it is left alone.
 
-What it does
-- Passwords, passphrases, PINs and hash-sized random tokens.
+- Four types: passwords, passphrases, PINs and hash-sized random tokens (hex or Base64, 128 to 512 bits).
 - Presets, so "Work", "Home" and "Fussy bank site" each keep their own options. The icon copies from the selected one.
 - Rules for fussy sites: shortest and longest length, how many numbers and symbols, upper and lower case, no repeated characters, no runs like abc or 123, nothing that looks like a birth date, characters to avoid.
-- Passphrases from everyday words, with word length, separator, capitals and a number on the end all adjustable, a profanity filter and your own words to exclude.
+- Passphrases from everyday words, with word length, separator, capitals and a number on the end all adjustable, a profanity filter and your own words to exclude. You can also load your own word list.
 - The strength is shown in bits for every result, with an estimate of how long it would take to crack, and a suggestion when you pick something weak. It never changes what you asked for.
 - A password checker for ones you already use. It runs on your computer only.
-- Right click in any text or password box to fill it with a new password.
-- Save a batch of up to 100 as a text or CSV file.
-- Back up and restore your settings as a file.
+- Right-click any text or password box and choose "Insert a Passgen password here" to fill it.
+- Save a batch of up to 100 as a text or CSV file, and back up or restore your settings as a file.
+- Alt+Shift+P copies a new password (same as the icon). Alt+Shift+G opens the settings page.
 
-Private by design
-- Passwords are made with the browser's own secure random number source.
-- Nothing is sent anywhere. There is no network access, no account and no tracking.
-- Passwords are never stored. Only your options are saved, on your computer.
-
-Shortcuts
-- Alt+Shift+P copies a new password (same as the icon).
-- Alt+Shift+G opens the options page.
+Private by design: passwords are made with the browser's own secure random number source, nothing is sent anywhere, and passwords are never stored. Only your settings are saved, on your computer.
 
 ## Category
-Chrome: Productivity (or Tools). Firefox: Privacy & Security.
+Productivity (Chrome) / Privacy & Security (Firefox)
 
-## Single purpose (Chrome)
-Generate strong passwords and passphrases and copy them to the clipboard.
+## Chrome Web Store: privacy tab
+Single purpose: Generate strong passwords and passphrases and copy them to the clipboard.
 
-## Permission justifications (Chrome)
-- storage: saves your options and presets on your computer.
-- clipboardWrite: copies the generated password to the clipboard.
-- clipboardRead: checks the clipboard still holds the generated password before clearing it, so something else you copied is never wiped.
-- contextMenus: adds "Insert a Passgen password here" to the right click menu on text boxes.
-- activeTab and scripting: fill the text box you right clicked when you choose that menu item. Nothing is read from the page.
-- offscreen: Chrome's service worker cannot use the clipboard, so a hidden page does the copying and clearing.
+Permission justifications:
+- storage: Saves the user's settings and presets on their computer.
+- clipboardWrite: Copies the generated password to the clipboard.
+- clipboardRead: Checks the clipboard still holds the generated password before clearing it, so something else the user copied is never wiped.
+- contextMenus: Adds "Insert a Passgen password here" to the right-click menu on text boxes.
+- activeTab: Lets the right-click menu item fill the text box that was clicked, on that tab only. No page content is read.
+- scripting: Runs the small fill step in the clicked text box when the user chooses the menu item.
+- offscreen: Chrome's service worker cannot use the clipboard, so a hidden page does the copying and the timed clearing.
 
-## Data usage (Chrome form)
-Collects no user data. Does not sell or transfer user data. Does not use data for unrelated purposes. Tick all three certifications. No privacy policy page is needed when no data is collected, but a one line statement can be linked if the form asks.
+Data usage: no user data is collected, transmitted or sold. It is not used for anything unrelated to the single purpose, or to decide creditworthiness. Tick all three certifications. Remote code: none.
+Privacy policy URL: https://github.com/MithUK1/passgen#privacy
 
-## Notes to reviewer (Firefox, source code submission)
-Upload passgen-source.zip. No dependencies need installing. With Node 20 or newer, run `npm run build`, then the packaged extension is in dist/firefox. The build only copies src/ and the matching manifest, and writes the word and filter lists in tools/lists/ out as JavaScript data files. The extension makes no network requests. The add-on ID is passgen@mithsys.xyz and it collects no data.
+## Firefox (AMO)
+Data collection: none required (declared in the manifest).
+Source code: https://github.com/MithUK1/passgen. Nothing is minified or bundled. `extension/src` is copied as written, and `npm run build` (Node 20 or newer, no dependencies to install) also writes the word lists in `tools/lists` out as the `words-*.js` files. Output is in `extension/firefox`.
+Add-on ID: passgen@mithsys.xyz
 
 ## Release notes
-1.1.0: presets, rules for fussy sites, password checker, right click fill, settings backup and restore, new options page and icons.
+1.0.0: First full release. Passwords, passphrases, PINs and random tokens, presets, rules for fussy sites, a password checker, right-click fill, settings backup and restore, a help link and a version label on the settings page.
+
+## Images
+- Icon: `icon-512.png` (source `icon.svg`).
+- Small promo tile: `promo-tile-440x280.png`.
+- Marquee promo: `promo-marquee-1400x560.png`.
+- Screenshots (1280x800): `screenshots/shot1-one-click.png` to `shot4-tokens.png`. Made with `node tools/art/render-store.mjs`.

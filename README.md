@@ -2,7 +2,7 @@
 
 A password generator for Chrome, Edge and Firefox, with a matching Windows app. One click puts a strong password on your clipboard, nothing is sent anywhere, and nothing is kept afterwards.
 
-- Browsers: Chrome and Edge (Manifest V3, the same build) and Firefox 140 or newer.
+- Browsers: Chrome, Edge and Brave (Manifest V3, the same build) and Firefox 140 or newer.
 - The Windows app has the same types, sizes and options as the extension, and the two always share one version number.
 
 ## What it does
@@ -28,8 +28,9 @@ A password generator for Chrome, Edge and Firefox, with a matching Windows app. 
 **Browser extension:** load the ready-built copy from the `extension` folder.
 
 - Chrome: open `chrome://extensions`, turn on Developer mode, choose Load unpacked and pick `extension\chrome`.
-- Edge: open `edge://extensions`, turn on Developer mode, choose Load unpacked and pick `extension\chrome`.
-- Firefox: open `about:debugging`, choose This Firefox, then Load Temporary Add-on and pick `extension\firefox\manifest.json`.
+- Edge and Brave: open `edge://extensions` or `brave://extensions`, turn on Developer mode, choose Load unpacked and pick `extension\chrome`.
+- Firefox, quick test: open `about:debugging#/runtime/this-firefox`, choose Load Temporary Add-on and pick `extension\firefox\manifest.json`. It is removed when Firefox restarts.
+- Firefox, permanent: Firefox release builds only install add-ons Mozilla has signed. Upload the Firefox zip to the [Add-on Developer Hub](https://addons.mozilla.org/developers/) as an unlisted add-on ("On your own"), then install the signed `.xpi` from `about:addons`. Each upload needs a new version number.
 
 ## Using it
 
@@ -38,6 +39,8 @@ A password generator for Chrome, Edge and Firefox, with a matching Windows app. 
 | Copy a password | Left click the toolbar icon, or Alt+Shift+P |
 | Open the options page | Right click the icon and choose Options, or Alt+Shift+G |
 | Fill a box | Right click it and choose "Insert a Passgen password here" |
+
+**Help** at the top right of the options page opens this page. The **?** beside each section shows a short explanation of it. The version is shown small in the bottom left corner.
 
 Every change on the options page is saved straight away and becomes what the icon copies. There is no save button. Reset to defaults is at the bottom of the page and needs a second click to confirm.
 
@@ -75,7 +78,7 @@ In the Windows app:
 - Only your presets and settings are stored, in the browser's own extension storage.
 - Save .txt and Save .csv write plain, unencrypted files, and only when you press the button.
 
-Permissions used: `storage`, `clipboardWrite`, `clipboardRead`, `contextMenus`, `activeTab`, `scripting`, and `offscreen` on Chrome only. There is no website access.
+Permissions used: `storage`, `clipboardWrite`, `clipboardRead`, `contextMenus`, `activeTab`, `scripting`, and `offscreen` on Chrome only. There is no website access. The extension loads no remote code and makes no network requests.
 
 ## Troubleshooting
 
