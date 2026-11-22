@@ -1,10 +1,11 @@
 # Passgen
 
-A password generator for Chrome and Firefox. One click puts a strong password on your clipboard, nothing is sent anywhere, and nothing is kept afterwards.
+A password generator for Chrome, Edge and Firefox, with a matching Windows app. One click puts a strong password on your clipboard, nothing is sent anywhere, and nothing is kept afterwards.
 
 - Version: 1.1.0
 - Repo: https://github.com/MithUK1/Passgen
-- Browsers: Chrome (Manifest V3) and Firefox 140 or newer
+- Browsers: Chrome and Edge (Manifest V3, the same build) and Firefox 140 or newer
+- The Windows app has the same types, sizes and options as the extension. See Desktop app below.
 
 ## What it does
 
@@ -27,6 +28,7 @@ You need Node to build it.
 The build writes a ready-to-load copy for each browser to `dist/chrome` and `dist/firefox`.
 
 - Chrome: open `chrome://extensions`, turn on Developer mode, choose Load unpacked and pick `dist/chrome`.
+- Edge: open `edge://extensions`, turn on Developer mode, choose Load unpacked and pick `dist/chrome`.
 - Firefox: open `about:debugging`, choose This Firefox, then Load Temporary Add-on and pick `dist/firefox/manifest.json`.
 
 ## Use
@@ -60,6 +62,7 @@ A Windows version of the same generator, in one exe. It has the four types, ever
 - It installs itself for your user, with a shortcut on the Desktop, in the Start menu and in the folder you ran it from.
 - To update, run a newer exe. It closes the running copy, replaces the program and keeps your settings. An older exe never replaces a newer install.
 - The version shown bottom left is `v<version> - <checksum>`. The checksum is the start of the exe's SHA-256, so two builds of one version can be told apart.
+- Settings has an App tab with three options, all on by default: minimise to the tray, close to the tray, and start with Windows. Start with Windows puts a shortcut in your Startup folder and opens Passgen hidden in the tray. Click the tray icon to bring the window back. To exit, right-click the tray icon and choose Exit, or use Exit Passgen on the App tab. With close to the tray off, the close button exits.
 - Everything you change is saved at once. Settings has the site rules, how many to make, how long the clipboard keeps the result, presets, backup and reset.
 - Copying keeps the result out of Windows clipboard history, and the clipboard is cleared after the set time if it still holds what was copied.
 - Run the exe with `-Uninstall` to remove the program, shortcuts and settings.

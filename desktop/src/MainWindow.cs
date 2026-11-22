@@ -305,22 +305,15 @@ namespace Passgen
         private void BuildHashPanel(Control parent)
         {
             Panel p = _panels[3] = NewPanel(parent);
-            Label sizeValue;
-            TrackBar size = AddSlider(p, "Size", 0, 0, Settings.HashSizes.Length - 1, out sizeValue);
-            sizeValue.Width = 220;
-            size.LargeChange = 1;
-            size.TickStyle = TickStyle.BottomRight;
-            size.TickFrequency = 1;
-            size.Height = 40;
-            _binder.Track(size, sizeValue,
-                s => Math.Max(0, Array.IndexOf(Settings.HashSizes, s.HashBits)),
-                (s, v) => s.HashBits = Settings.HashSizes[v],
-                v => Settings.HashSizes[v] + " bits (" + (Settings.HashSizes[v] / 8) + " bytes)");
-            p.Controls.Add(RowLabel("Format", 46));
-            ComboBox format = Theme.NewDropDown(108, 44, 260, "Hex", "Base64", "Base64 URL-safe");
+            p.Controls.Add(RowLabel("Size", 2));
+            ComboBox size = Theme.NewDropDown(108, 0, 260, "128 bit", "160 bit", "256 bit (SHA-256 length)", "384 bit (SHA-384 length)", "512 bit (SHA-512 length)");
+            p.Controls.Add(size);
+            _binder.ComboInt(size, Settings.HashSizes, s => s.HashBits, (s, v) => s.HashBits = v);
+            p.Controls.Add(RowLabel("Format", 38));
+            ComboBox format = Theme.NewDropDown(108, 36, 260, "Hex", "Base64", "Base64 URL-safe");
             p.Controls.Add(format);
             _binder.Combo(format, Settings.HashFormats, s => s.HashFormat, (s, v) => s.HashFormat = v);
-            p.Controls.Add(Hint("A random value the size of a hash, for keys, secrets and salts. It is not a hash of anything.", 84));
+            p.Controls.Add(Hint("A random value the size of a hash, for keys, secrets and salts. It is not a hash of anything.", 76));
         }
 
         // Fills every control from the selected preset and shows the right panel.

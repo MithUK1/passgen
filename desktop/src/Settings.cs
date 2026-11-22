@@ -67,7 +67,7 @@ namespace Passgen
         public static readonly string[] Separators = { "-", ".", "_", " ", "", "random" };
         public static readonly string[] WordLists = { "common", "big", "eff", "custom" };
         public static readonly string[] PinTypes = { "digits", "alnum" };
-                public static readonly int[] HashSizes = { 64, 96, 128, 160, 192, 224, 256, 384, 512 };
+                public static readonly int[] HashSizes = { 128, 160, 256, 384, 512 };
         public static readonly string[] HashFormats = { "hex", "base64", "base64url" };
 
         private static readonly FieldInfo[] Fields = typeof(Settings).GetFields(BindingFlags.Public | BindingFlags.Instance);
