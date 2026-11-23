@@ -27,7 +27,7 @@ Click the toolbar icon and a new password goes on your clipboard, made with your
 Private by design: passwords are made with the browser's own secure random number source, nothing is sent anywhere, and passwords are never stored. Only your settings are saved, on your computer.
 
 ## Category
-Productivity (Chrome) / Privacy & Security (Firefox)
+Tools (Chrome; Productivity is only a heading above it) / Privacy & Security (Firefox)
 
 ## Chrome Web Store: privacy tab
 Single purpose: Generate strong passwords and passphrases and copy them to the clipboard.
