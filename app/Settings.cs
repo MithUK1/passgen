@@ -231,7 +231,7 @@ namespace Passgen
     {
         public const string AppVersion = "1.0.1";
         public const int MaxPresets = 20;
-        public const string HelpUrl = "https://github.com/MithUK1/passgen#readme";
+        public const string HelpUrl = "https://github.com/MithUK1/passgen-plus#readme";
         private const string PresetPrefix = "Preset:";
 
         public static readonly List<Preset> Presets = new List<Preset>();
