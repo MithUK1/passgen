@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Passgen Plus",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Strong password, passphrase, PIN and token generator. Click the icon to copy your default password.",
   "browser_specific_settings": {
     "gecko": {

@@ -49,7 +49,7 @@ Data collection: none required (declared in the manifest).
 Source code: https://github.com/MithUK1/passgen-plus. Nothing is minified or bundled. `extension/src` is copied as written, and `npm run build` (Node 20 or newer, no dependencies to install) also writes the word lists in `tools/lists` out as the `words-*.js` files. Output is in `extension/firefox`.
 
 ## Release notes
-1.0.1: Public Firefox release. Same features as 1.0.0 (first full release). Passwords, passphrases, PINs and random tokens, presets, rules for fussy sites, a password checker, right-click fill, settings backup and restore, a help link and a version label on the settings page.
+1.0.2: Renamed to Passgen Plus. Same features as 1.0.0 (first full release). Passwords, passphrases, PINs and random tokens, presets, rules for fussy sites, a password checker, right-click fill, settings backup and restore, a help link and a version label on the settings page.
 
 ## Images
 - Icon: `icon-512.png` (source `icon.svg`).
