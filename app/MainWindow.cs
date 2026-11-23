@@ -50,7 +50,7 @@ namespace Passgen
         public MainWindow(EventWaitHandle showEvent, EventWaitHandle exitEvent, string notice, bool startHidden)
         {
             _hiddenStart = startHidden && (Store.MinimizeToTray || Store.CloseToTray);
-            Text = "Passgen";
+            Text = "Passgen Plus";
             ClientSize = new Size(720, 596);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -120,9 +120,9 @@ namespace Passgen
             _exitWait = ThreadPool.RegisterWaitForSingleObject(exitEvent, (state, timedOut) => RunOnWindow(ExitApp), null, -1, false);
 
             var menu = new ContextMenuStrip();
-            menu.Items.Add("Open Passgen", null, (s, e) => BringForward());
+            menu.Items.Add("Open Passgen Plus", null, (s, e) => BringForward());
             menu.Items.Add("Exit", null, (s, e) => ExitApp());
-            _tray = new NotifyIcon { Icon = Theme.AppIcon, Text = "Passgen", ContextMenuStrip = menu, Visible = Store.MinimizeToTray || Store.CloseToTray };
+            _tray = new NotifyIcon { Icon = Theme.AppIcon, Text = "Passgen Plus", ContextMenuStrip = menu, Visible = Store.MinimizeToTray || Store.CloseToTray };
             _tray.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) BringForward(); };
             Resize += (s, e) => { if (WindowState == FormWindowState.Minimized && (Store.MinimizeToTray || _closingToTray)) Hide(); };
 

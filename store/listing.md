@@ -1,7 +1,7 @@
 # Store listing text
 
 ## Name
-Passgen
+Passgen Plus
 
 ## Summary (Chrome, max 132 characters)
 Strong passwords and passphrases in one click. Nothing saved, nothing sent, clipboard cleared for you.
@@ -10,7 +10,7 @@ Strong passwords and passphrases in one click. Nothing saved, nothing sent, clip
 Click the toolbar icon to copy a strong password or passphrase. Presets, rules for fussy sites, a password checker and automatic clipboard clearing. Everything stays on your computer.
 
 ## Description
-Passgen makes strong passwords, passphrases, PINs and random tokens, and gets out of your way.
+Passgen Plus makes strong passwords, passphrases, PINs and random tokens, and gets out of your way.
 
 Click the toolbar icon and a new password goes on your clipboard, made with your chosen options. About a minute and a half later the clipboard is wiped, unless you have copied something else since, in which case it is left alone.
 
@@ -20,7 +20,7 @@ Click the toolbar icon and a new password goes on your clipboard, made with your
 - Passphrases from everyday words, with word length, separator, capitals and a number on the end all adjustable, a profanity filter and your own words to exclude. You can also load your own word list.
 - The strength is shown in bits for every result, with an estimate of how long it would take to crack, and a suggestion when you pick something weak. It never changes what you asked for.
 - A password checker for ones you already use. It runs on your computer only.
-- Right-click any text or password box and choose "Insert a Passgen password here" to fill it.
+- Right-click any text or password box and choose "Insert a Passgen Plus password here" to fill it.
 - Save a batch of up to 100 as a text or CSV file, and back up or restore your settings as a file.
 - Alt+Shift+P copies a new password (same as the icon). Alt+Shift+G opens the settings page.
 
@@ -36,7 +36,7 @@ Permission justifications:
 - storage: Saves the user's settings and presets on their computer.
 - clipboardWrite: Copies the generated password to the clipboard.
 - clipboardRead: Checks the clipboard still holds the generated password before clearing it, so something else the user copied is never wiped.
-- contextMenus: Adds "Insert a Passgen password here" to the right-click menu on text boxes.
+- contextMenus: Adds "Insert a Passgen Plus password here" to the right-click menu on text boxes.
 - activeTab: Lets the right-click menu item fill the text box that was clicked, on that tab only. No page content is read.
 - scripting: Runs the small fill step in the clicked text box when the user chooses the menu item.
 - offscreen: Chrome's service worker cannot use the clipboard, so a hidden page does the copying and the timed clearing.

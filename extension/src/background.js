@@ -88,9 +88,9 @@ ext.runtime.onInstalled.addListener(async details => {
   await ext.contextMenus.removeAll();
   // Chrome already lists Options on the icon menu, Firefox only offers Manage Extension.
   if (!usesOffscreen) {
-    ext.contextMenus.create({id: 'open-options', title: 'Passgen options', contexts: ['action']});
+    ext.contextMenus.create({id: 'open-options', title: 'Passgen Plus options', contexts: ['action']});
   }
-  ext.contextMenus.create({id: 'insert-password', title: 'Insert a Passgen password here', contexts: ['editable']});
+  ext.contextMenus.create({id: 'insert-password', title: 'Insert a Passgen Plus password here', contexts: ['editable']});
   if (details.reason === 'install') ext.runtime.openOptionsPage();
 });
 

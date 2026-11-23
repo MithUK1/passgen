@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Passgen",
+  "name": "Passgen Plus",
   "version": "1.0.1",
   "description": "Strong password, passphrase, PIN and token generator. Click the icon to copy your default password.",
   "browser_specific_settings": {
@@ -20,7 +20,7 @@
     "128": "icons/128.png"
   },
   "action": {
-    "default_title": "Passgen: click to copy a new password",
+    "default_title": "Passgen Plus: click to copy a new password",
     "default_icon": {
       "16": "icons/16.png",
       "32": "icons/32.png"
@@ -42,7 +42,7 @@
     },
     "open-options": {
       "suggested_key": {"default": "Alt+Shift+G"},
-      "description": "Open Passgen options"
+      "description": "Open Passgen Plus options"
     }
   }
 }

@@ -1,4 +1,4 @@
-# Passgen
+# Passgen Plus
 
 A password generator for Chrome, Edge and Firefox, with a matching Windows app. One click puts a strong password on your clipboard, nothing is sent anywhere, and nothing is kept afterwards.
 
@@ -10,7 +10,7 @@ A password generator for Chrome, Edge and Firefox, with a matching Windows app. 
 - Left click the toolbar icon to copy a new password. The clipboard is wiped after a timer (90 seconds by default), unless you have copied something else since.
 - Four types: password, passphrase, PIN and hash (random token).
 - Named presets. The icon always copies from the selected one.
-- Right click in any text box and choose "Insert a Passgen password here" to fill it.
+- Right click in any text box and choose "Insert a Passgen Plus password here" to fill it.
 - Rules for fussy sites: length limits, minimum and maximum numbers and symbols, letter case, repeats, runs, birth dates, characters to avoid.
 - Strength is worked out from how the password was made, with a crack time estimate and a separate "Check a password" box.
 - Bulk generate and save to .txt or .csv, and back up or restore your settings as JSON.
@@ -38,7 +38,7 @@ A password generator for Chrome, Edge and Firefox, with a matching Windows app. 
 | --- | --- |
 | Copy a password | Left click the toolbar icon, or Alt+Shift+P |
 | Open the options page | Right click the icon and choose Options, or Alt+Shift+G |
-| Fill a box | Right click it and choose "Insert a Passgen password here" |
+| Fill a box | Right click it and choose "Insert a Passgen Plus password here" |
 
 **Help** at the top right of the options page opens this page. The **?** beside each section shows a short explanation of it. The version is shown small in the bottom left corner.
 
